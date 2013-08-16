@@ -65,9 +65,6 @@ Final thing we will do is add a task to the play `compile` task that will initia
 Create the following sh script
 ###update-template.sh
 ```sh
-thisDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-templateDir="$thisDir/govuk_template_play"
-
 echo "Updating govuk_template_play"
 git submodule init
 git submodule update
