@@ -20,8 +20,9 @@ Play uses the property `sourceGenerators` to know what files should be compiled 
 
 Make the following changes to your project definition. This will add a new SettingsKey that refers to our template directory and includes it in the `sourceGenerators` property.
 
-###project/Build.scala
-```scala
+
+#####[project/Build.scala](https://github.com/michaeldfallen/play-govuk-demo/blob/master/project/Build.scala)
+```scala 
 val templateKey = SettingKey[File]("template-dir", "Template directory for govuk_template_play")
 
 lazy val main = play.Project(appName, appVersion, appDependencies).settings(
@@ -36,21 +37,21 @@ In order for the govuk_template.scala.html template to access assets we need to 
 To do this we will create our own `AssetBuilder` which will keep reverse routing in our own templates cleaner than using the existing `route.Assets` to serve template assets.
 
 Create the following file:
-###controllers/Template.scala
+#####[app/controllers/Template.scala](https://github.com/michaeldfallen/play-govuk-demo/blob/master/app/controllers/Template.scala)
 ```scala
 package controllers
 object Template extends AssetBuilder
 ```
 
 Add the following definition to your routes file:
-###conf/routes
+#####[conf/routes](https://github.com/michaeldfallen/play-govuk-demo/blob/master/conf/routes)
 ```
 GET    /template/*file    controllers.Template.at("/govuk_template_play/assets", file)
 ```
 
 And finally we need to add the `govuk_template_play/assets` folder to the `playAssetsDirectories` property in our Build definition
 
-###project/Build.scala
+#####[project/Build.scala](https://github.com/michaeldfallen/play-govuk-demo/blob/master/project/Build.scala)
 ```scala
 ...
 lazy val main = play.Project(appName, appVersion, appDependencies).settings(
@@ -63,7 +64,7 @@ lazy val main = play.Project(appName, appVersion, appDependencies).settings(
 Final thing we will do is add a task to the play `compile` task that will initialise and update the govuk_template_play submodule. This will mean that when someone else checks out your app they will not need to do anything else to get the app up and running than executing `play run`
 
 Create the following sh script
-###update-template.sh
+#####[update-template.sh](https://github.com/michaeldfallen/play-govuk-demo/blob/master/update-template.sh)
 ```sh
 echo "Updating govuk_template_play"
 git submodule init
@@ -72,7 +73,7 @@ git submodule update
 
 Now we will execute this script anytime play tries to compile the app. Make the following changes to your Build definition:
 
-###project/Build.scala
+#####[project/Build.scala](https://github.com/michaeldfallen/play-govuk-demo/blob/master/project/Build.scala)
 ```scala
 ...
 val updateTemplate = TaskKey[Unit]("update-template", "Updates the govuk_template_play")
