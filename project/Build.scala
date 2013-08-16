@@ -14,8 +14,18 @@ object ApplicationBuild extends Build {
   )
 
 
-  val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+  lazy val main = play.Project(appName, appVersion, appDependencies).settings(
+    templateKey in Compile <<= baseDirectory(_ / "govuk_template_play"),
+    sourceGenerators in Compile <+= (state, templateKey in Compile, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
+    playAssetsDirectories <+= baseDirectory { _ / "govuk_template_play" / "assets" },
+    updateTemplateTask,
+    compile <<= (compile in Compile) dependsOn updateTemplate
   )
+
+  val templateKey = SettingKey[File]("template-dir", "Template directory for govuk_template_play")
+  val updateTemplate = TaskKey[Unit]("update-template", "Updates the govuk_template_play")
+  val updateTemplateTask = updateTemplate := {
+    "./update-template.sh".!
+  }
 
 }
