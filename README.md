@@ -90,3 +90,7 @@ lazy val main = play.Project(appName, appVersion, appDependencies).settings(
 ```
 
 Done! 
+
+##Using the templates
+
+A simple example of how to use the template can be found in [main.scala](https://github.com/michaeldfallen/play-govuk-demo/blob/master/app/views/main.scala.html)
