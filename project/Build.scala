@@ -8,24 +8,27 @@ object ApplicationBuild extends Build {
   val appVersion      = "1.0-SNAPSHOT"
 
   val appDependencies = Seq(
-    // Add your project dependencies here,
-    jdbc,
-    anorm
   )
 
 
-  lazy val main = play.Project(appName, appVersion, appDependencies).settings(
-    templateKey in Compile <<= baseDirectory(_ / "govuk_template_play"),
-    sourceGenerators in Compile <+= (state, templateKey in Compile, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
-    playAssetsDirectories <+= baseDirectory { _ / "govuk_template_play" / "assets" },
-    updateTemplateTask,
-    compile <<= (compile in Compile) dependsOn updateTemplate
-  )
+  lazy val main = play.Project(appName, appVersion, appDependencies)
+    .settings(GovukTemplatePlay.playSettings:_*)
 
-  val templateKey = SettingKey[File]("template-dir", "Template directory for govuk_template_play")
-  val updateTemplate = TaskKey[Unit]("update-template", "Updates the govuk_template_play")
-  val updateTemplateTask = updateTemplate := {
+}
+
+object GovukTemplatePlay extends Plugin {
+
+  lazy val templateKey = SettingKey[Seq[File]]("template-dir", "Template directory for govuk_template_play")
+  lazy val updateTemplate = TaskKey[Unit]("update-template", "Updates the govuk_template_play")
+  lazy val updateTemplateTask = updateTemplate := {
     "./update-template.sh".!
   }
 
+  val playSettings = Seq(
+    templateKey <<= baseDirectory(_ / "app" / "assets" / "govuk_template_play")(Seq(_)),
+    sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
+    playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" / "assets" },
+    updateTemplateTask
+  )
 }
+

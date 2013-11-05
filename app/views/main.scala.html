@@ -5,9 +5,17 @@
 @head = {
 
 }
-@footer = {
+@footerTop = {
 
+}
+@bodyEnd = {
+  
+}
+@footerLinks = {
+  
+}
+@insideHead = {
 }
 
 
-@govuk_template(Some(title), None)(head, footer)(content)
+@govuk_template(Some(title), None)(head, bodyEnd, insideHead, footerTop, footerLinks)(content)
