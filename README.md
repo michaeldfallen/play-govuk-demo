@@ -1,18 +1,20 @@
 #Play-govuk-demo
 
-This is a simple example of how to make use of [govuk_template_play](https://github.com/michaeldfallen/govuk_template_play) in your play applications. 
+This is a simple example of how to make use of [govuk_template_play](https://github.com/alphagov/govuk_template_play) in your play applications. 
+
+ * For Play 2.1.2 use the [Play-212](https://github.com/michaeldfallen/play-govuk-demo/blob/play-212/README.md) branch
 
 ##Get the templates
 
-First step, download the templates. Here we use git submodules to link to the [govuk_template_play](https://github.com/michaeldfallen/govuk_template_play) repo directly.
+First step, download the templates. Here we use git submodules to link to the [govuk_template_play](https://github.com/alphagov/govuk_template_play) repo directly.
 
 ```sh
-git submodule add git@github.com:michaeldfallen/govuk_template_play.git
+git submodule add git@github.com:alphagov/govuk_template_play.git
 git submodule init
 git submodule update
 ```
 
-You can also download the compiled sources as a tar ball from [govuk_template_play/releases](https://github.com/michaeldfallen/govuk_template_play/releases)
+You can also download the compiled sources as a tar ball from [govuk_template_play/releases](https://github.com/alphagov/govuk_template_play/releases)
 
 ##Add the templates to Plays Template Generator
 
